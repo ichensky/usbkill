@@ -1,6 +1,9 @@
-/* List of all USB devices you want whitelisted (i.e. ignored) */
-static const struct usb_device_id whitelist_devices[] = {
+/* List of all USB devices you want whitelisted (can be inserted into pc) */
+static const struct usb_device_id whitelist_add_devices[] = {
+	{ USB_DEVICE(0x093a, 0x2510) },
 	{ USB_DEVICE(0x0000, 0x0000) },
 };
-/* List of all USB devices you have whitelisted and if any of this device remove: shutdown */
-static const struct usb_device_id whitelist_devices_remove[] = { };
+/* List of all USB devices you want whitelisted (can be removed from pc) */
+static const struct usb_device_id whitelist_remove_devices[] = {
+	{ USB_DEVICE(0x0000, 0x0000) },
+};
