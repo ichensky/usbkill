@@ -67,15 +67,31 @@ static void check_usb_device(struct usb_device *dev) {
 	}
 	panic_time(dev);
 }
+static void check_usb_device_remove(struct usb_device *dev) {
+	const struct usb_device_id *dev_id;
+
+	unsigned long len = sizeof(whitelist_devices_remove)/
+		sizeof(whitelist_devices_remove[0]);
+	int i; 
+	for(i = 0; i < len; i++) {
+		dev_id = &whitelist_devices_remove[i];
+		if (usb_match_device(dev, dev_id)) {
+			panic_time(dev);
+			break;
+		}
+	}
+	return;
+}
 
 static int notify(struct notifier_block *self, 
 		unsigned long action, 
 		void *dev) {
 	if(action==USB_DEVICE_ADD){
-			check_usb_device(dev);
+		check_usb_device(dev);
 	}
-	else if(action==USB_DEVICE_ADD){
-			check_usb_device(dev);
+	else if(action==USB_DEVICE_REMOVE){
+		check_usb_device(dev);
+		check_usb_device_remove(dev);
 	}
 	return 0;
 }
